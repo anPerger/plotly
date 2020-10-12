@@ -17,7 +17,7 @@ function getSampleID (data, id) {
 function getMetaID (data, id) {
     for(const metaData in data) {
         //check sample
-        console.log(metaData)
+        // console.log(metaData)
         if (data[metaData].id === Number(id)) {
             return data[metaData]
         }
@@ -26,7 +26,7 @@ function getMetaID (data, id) {
 // sort and slice data from samples
 function sortSlice (data) {
     data.sampleValues = data.sample_values.slice(0,10);
-    data.otuIDs = data.id.slice(0,10);
+    data.otuIDs = data.otu_ids.slice(0,10);
     return data
     // console.log(data.sampleValues)
         
@@ -35,7 +35,7 @@ function sortSlice (data) {
 function makeChart (data) {
     data.otuIDs = data.otuIDs;
     data.top10 = data.sampleValues;
-    // console.log(data.top10)
+    console.log(data.otuIDs)
     let trace = {
         x: data.otuIDs,
         y: data.top10,
@@ -44,15 +44,17 @@ function makeChart (data) {
     };
     let layout = {
         title: 'top 10 bacteria',
-        xaxis: { title: 'bacteria' },
+        xaxis: { title: 'OTUID' },
         yaxis: { title: 'amount'}
       };
 
     let barTrace = [trace];
     Plotly.newPlot('bar', barTrace, layout)
 }
-// function makeTable (data, id) {
-//     let data = [{
+// function makeTable (data, id) { 
+//          
+//         let data = [{
+            
 //         type: 'table',
 //         header: data,
 //         values: data
@@ -61,17 +63,17 @@ function makeChart (data) {
 // }
 
 function makeBubble (data) {
-    data.otuIDs = data.otu_ids;
-    data.values = data.sample_values;
+    data.allOTUs = data.otu_ids;
+    data.allValues = data.sample_values;
     let trace1 = {
-        x: data.otuIDs,
-        y: data.values,
+        x: data.allOTUs,
+        y: data.allValues,
         mode: 'markers',
-        marker: {
-          color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
-          opacity: [1, 0.8, 0.6, 0.4],
-          size: [40, 60, 80, 100]
-        }
+        // marker: {
+        //   color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)'],
+        //   opacity: [1, 0.8, 0.6, 0.4],
+        //   size: [40, 60, 80, 100]
+        // }
       };
       
     let demo = [trace1];
@@ -92,7 +94,7 @@ d3.json('samples.json').then((samples) => {
     // console.log(data)
     const dataSamples = data.samples;
     const metaData = data.metadata;
-    console.log(metaData)
+    // console.log(metaData)
     const dropDown = d3.select('#selDataset');
     // console.log(metaData)
     // console.log(dataSamples)
@@ -111,10 +113,10 @@ d3.json('samples.json').then((samples) => {
     
     dropDown.on('change', () => {
         let selection = dropDown.property('value');
-        console.log(selection)
+        // console.log(selection)
         const selectionSample = getSampleID(dataSamples, selection);
         const metaSample = getMetaID(metaData, selection);
-        console.log(metaSample)
+        // console.log(metaSample)
         console.log(selectionSample)
         
         const sortedSample = sortSlice(selectionSample);
