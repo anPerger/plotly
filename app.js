@@ -12,7 +12,8 @@ function getSampleID (data, id) {
 function getMetaID (data, id) {
     for(const metaData in data) {
         //check sample
-        if (data[metaData].id === id) {
+        console.log(metaData)
+        if (data[metaData].id === Number(id)) {
             return data[metaData]
         }
     }
@@ -20,7 +21,7 @@ function getMetaID (data, id) {
 // sort and slice data from samples
 function sortSlice (data) {
     data.sampleValues = data.sample_values.slice(0,10);
-    data.otuIDs = data.otu_ids.slice(0,10);
+    data.otuIDs = data.id.slice(0,10);
     return data
     // console.log(data.sampleValues)
         
@@ -29,7 +30,7 @@ function sortSlice (data) {
 function makeChart (data) {
     data.otuIDs = data.otuIDs;
     data.top10 = data.sampleValues;
-    console.log(data.top10)
+    // console.log(data.top10)
     let trace = {
         x: data.otuIDs,
         y: data.top10,
@@ -51,6 +52,7 @@ d3.json('samples.json').then((samples) => {
     // console.log(data)
     const dataSamples = data.samples;
     const metaData = data.metadata;
+    console.log(metaData)
     const dropDown = d3.select('#selDataset');
     // console.log(metaData)
     // console.log(dataSamples)
@@ -70,40 +72,17 @@ d3.json('samples.json').then((samples) => {
     dropDown.on('change', () => {
         let selection = dropDown.property('value');
         console.log(selection)
-        const selectionSample = getSampleID(dataSamples, selection)
-        
+        const selectionSample = getSampleID(dataSamples, selection);
+        const metaSample = getMetaID(metaData, selection);
+        console.log(metaSample)
         // console.log(selectionSample)
         
-        const sortedSample = sortSlice(selectionSample)
-        console.log(sortedSample)
+        const sortedSample = sortSlice(selectionSample);
+        // console.log(sortedSample)
 
         makeChart(sortedSample)
         
     });
 });
 
-    
-    // let trace = {
-    //     x: sortedSamples.otuIDs,
-    //     y: sortedSamples.sampleValues,
-    //     type: "bar"
-
-    // };
-    // let layout = {
-    //     title: "top 10 bacteria",
-    //     xaxis: { title: "bacteria" },
-    //     yaxis: { title: "amount"}
-    //   };
-
-    // let barTrace = [trace];
-    // plotly.newPlot("bar", barTrace, layout)
- 
-
-//     console.log(dataSamples)
-//     // Slice the first 10 objects for plotting
-//     top10 = barSamples.slice(0, 10);
-//     console.log(top10)
-// })
-    // topLables = 
-    // Reverse the array due to Plotly's defaults
-    // data = data.reverse();
+  
