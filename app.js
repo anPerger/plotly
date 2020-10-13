@@ -8,11 +8,6 @@ function getSampleID (data, id) {
         }
     }
 }
-// function getAllSamples (data) {
-//     for(const samples in data) {
-//         samples === 
-//     }
-// }
 // retrieve metadata id function
 function getMetaID (data, id) {
     for(const metaData in data) {
@@ -55,16 +50,25 @@ function makeChart (data) {
     let barTrace = [trace];
     Plotly.newPlot('bar', barTrace, layout)
 }
-// function makeTable (data, id) { 
-//          
-//         let data = [{
-
-//         type: 'table',
-//         header: data,
-//         values: data
-//     }]
-//     Plotly.newPlot('sample-metadata', data)
-// }
+function makeTable (data) { 
+        let metaValues = {
+        'id': data.id,
+        'ethnicity': data.ethnicity,
+        'gender': data.gender,
+        'age': data.age,
+        'location': data.location,
+        'bbtype': data.bbtype,
+        'wfreq': data.wfreq,
+        }
+        console.log(metaValues)
+        // let table = [{
+        //     type: 'table',
+        //     cells: {
+        //         values: metaValues
+        //     }
+        // }]
+    Plotly.newPlot('sample-metadata', metaValues)
+}
 
 function makeBubble (data) {
     data.allOTUs = data.otu_ids;
@@ -98,11 +102,11 @@ d3.json('samples.json').then((samples) => {
     // console.log(data)
     const dataSamples = data.samples;
     const metaData = data.metadata;
-    // console.log(metaData)
+    console.log(metaData)
     const dropDown = d3.select('#selDataset');
     // console.log(metaData)
     // console.log(dataSamples)
-    // Sort the data array using the greekSearchResults value
+    // Sort the data array using the sample results
     const options = dropDown.selectAll('option').data(dataSamples).enter();
     // console.log(dataSamples)
     options
@@ -121,13 +125,13 @@ d3.json('samples.json').then((samples) => {
         const selectionSample = getSampleID(dataSamples, selection);
         const metaSample = getMetaID(metaData, selection);
         // console.log(metaSample)
-        console.log(selectionSample)
+        // console.log(selectionSample)
         
         const sortedSample = sortSlice(selectionSample);
         // console.log(sortedSample)
         makeBubble(selectionSample);
         makeChart(sortedSample);
-        // makeTable(metaSample)
+        makeTable(metaSample)
     });
 });
 
