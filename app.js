@@ -27,6 +27,7 @@ function getMetaID (data, id) {
 function sortSlice (data) {
     data.sampleValues = data.sample_values.slice(0,10);
     data.otuIDs = data.otu_ids.slice(0,10);
+    data.otuLabels = data.otu_labels.slice(0, 10)
     return data
     // console.log(data.sampleValues)
         
@@ -35,17 +36,20 @@ function sortSlice (data) {
 function makeChart (data) {
     data.otuIDs = data.otuIDs;
     data.top10 = data.sampleValues;
-    console.log(data.otuIDs)
+    
+    // console.log(data.otuIDs)
     let trace = {
-        x: data.otuIDs,
-        y: data.top10,
-        type: 'bar'
+        y: data.otuIDs,
+        x: data.top10,
+        type: 'bar',
+        orientation: 'h',
+        text: data.otuLabels
 
     };
     let layout = {
         title: 'top 10 bacteria',
-        xaxis: { title: 'OTUID' },
-        yaxis: { title: 'amount'}
+        xaxis: { title: 'amount of bacteria'},
+        yaxis: { title: 'OTU ID Number'}
       };
 
     let barTrace = [trace];
@@ -54,7 +58,7 @@ function makeChart (data) {
 // function makeTable (data, id) { 
 //          
 //         let data = [{
-            
+
 //         type: 'table',
 //         header: data,
 //         values: data
