@@ -52,27 +52,29 @@ function makeChart (data) {
 }
 // makes demographic table for choosen id
 function makeTable (data) { 
-        
-        let metaValues = {
-            'id': data.id,
-            'ethnicity': data.ethnicity,
-            'gender': data.gender,
-            'age': data.age,
-            'location': data.location,
-            'bbtype': data.bbtype,
-            'wfreq': data.wfreq,
-        }
+
+    
+    let metaValues = {
+        'id': data.id,
+        'ethnicity': data.ethnicity,
+        'gender': data.gender,
+        'age': data.age,
+        'location': data.location,
+        'bbtype': data.bbtype,
+        'wfreq': data.wfreq,
+    }
         // console.log(metaValues)
         // d3.select('sample-metadata').append(metaValues)
         // append a table
-        const tbody = d3.select('#sample-metadata').append('tbody');
-      
+    d3.select('#sample-metadata').selectAll('*').remove();
+    const tbody = d3.select('#sample-metadata').append('tbody');
+   
 
-        Object.entries(metaValues).forEach(entry => {
-            const [key, value] = entry;
-            console.log(key, value);
-            const row = tbody.append('tr');
-            row.append('td').text(`${key}: ${value}`)
+    Object.entries(metaValues).forEach(entry => {
+        const [key, value] = entry;
+        console.log(key, value);
+        const row = tbody.append('tr');
+        row.append('td').text(`${key}: ${value}`)
             
     
 
@@ -157,6 +159,7 @@ d3.json('samples.json').then((samples) => {
         // console.log(sortedSample)
         makeBubble(selectionSample);
         makeChart(sortedSample);
+       
         makeTable(metaSample)
     });
 });
