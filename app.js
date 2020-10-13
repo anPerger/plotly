@@ -52,19 +52,44 @@ function makeChart (data) {
 }
 // makes demographic table for choosen id
 function makeTable (data) { 
+        
         let metaValues = {
-        'id': data.id,
-        'ethnicity': data.ethnicity,
-        'gender': data.gender,
-        'age': data.age,
-        'location': data.location,
-        'bbtype': data.bbtype,
-        'wfreq': data.wfreq,
+            'id': data.id,
+            'ethnicity': data.ethnicity,
+            'gender': data.gender,
+            'age': data.age,
+            'location': data.location,
+            'bbtype': data.bbtype,
+            'wfreq': data.wfreq,
         }
-        console.log(metaValues)
+        // console.log(metaValues)
+        // d3.select('sample-metadata').append(metaValues)
+        // append a table
+        const tbody = d3.select('#sample-metadata').append('tbody');
+      
+
+        Object.entries(metaValues).forEach(entry => {
+            const [key, value] = entry;
+            console.log(key, value);
+            const row = tbody.append('tr');
+            row.append('td').text(`${key}: ${value}`)
+            
     
-        document.getElementById('sample-metadata').innerHTML = metaValues
-    
+
+    //     for (const demoData in metaValues) {
+
+    // // console.log to make sure all objects were selected
+    // // console.log(ufoSighting);
+                
+    //         const row = tbody.append('tr');
+    //         Object.values(demoData).forEach(value => {
+    //   // Append a cell to the row for each value
+    //   // in the ufo object
+    //         var cell = row.append('td');
+    //         cell.text(metaValues[value]);
+
+    //         })
+         })
 }
 // makes bubble chart of all samples from choosen id
 function makeBubble (data) {
