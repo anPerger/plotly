@@ -18,7 +18,7 @@ function getMetaID (data, id) {
         }
     }
 }
-// sort and slice data from samples
+// sort and slice data from samples of choosen id
 function sortSlice (data) {
     data.sampleValues = data.sample_values.slice(0,10);
     data.otuIDs = data.otu_ids.slice(0,10);
@@ -27,7 +27,7 @@ function sortSlice (data) {
     // console.log(data.sampleValues)
         
 }
-
+// makes chart with sorted samples of selected id
 function makeChart (data) {
     data.otuIDs = data.otuIDs;
     data.top10 = data.sampleValues;
@@ -50,6 +50,7 @@ function makeChart (data) {
     let barTrace = [trace];
     Plotly.newPlot('bar', barTrace, layout)
 }
+// makes demographic table for choosen id
 function makeTable (data) { 
         let metaValues = {
         'id': data.id,
@@ -61,15 +62,11 @@ function makeTable (data) {
         'wfreq': data.wfreq,
         }
         console.log(metaValues)
-        // let table = [{
-        //     type: 'table',
-        //     cells: {
-        //         values: metaValues
-        //     }
-        // }]
-    Plotly.newPlot('sample-metadata', metaValues)
+    
+        document.getElementById('sample-metadata').innerHTML = metaValues
+    
 }
-
+// makes bubble chart of all samples from choosen id
 function makeBubble (data) {
     data.allOTUs = data.otu_ids;
     data.allValues = data.sample_values;
@@ -96,6 +93,7 @@ function makeBubble (data) {
     Plotly.newPlot('bubble', demo, layout);
 
 }
+// loads json data and sets variables to work with the data
 d3.json('samples.json').then((samples) => {
     // console.log(importedData);
     const data = samples;
@@ -103,9 +101,12 @@ d3.json('samples.json').then((samples) => {
     const dataSamples = data.samples;
     const metaData = data.metadata;
     console.log(metaData)
+
+// activates dropdown menue and calls functions from above
     const dropDown = d3.select('#selDataset');
     // console.log(metaData)
     // console.log(dataSamples)
+
     // Sort the data array using the sample results
     const options = dropDown.selectAll('option').data(dataSamples).enter();
     // console.log(dataSamples)
