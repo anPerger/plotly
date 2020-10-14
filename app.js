@@ -34,7 +34,7 @@ function makeChart (data) {
     
     
     let trace = {
-        y: data.otuIDs,
+        y: data.otuIDs.map(d => `otu ${d}`).reverse(),
         x: data.top10,
         type: 'bar',
         orientation: 'h',
